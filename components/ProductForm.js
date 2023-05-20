@@ -3,6 +3,7 @@ import {useRouter} from "next/router";
 import axios from "axios";
 import Spinner from "@/components/Spinner";
 import {ReactSortable} from "react-sortablejs";
+import Image from "next/image";
 
 export default function ProductForm({
   _id,
@@ -23,11 +24,13 @@ export default function ProductForm({
   const [isUploading,setIsUploading] = useState(false);
   const [categories,setCategories] = useState([]);
   const router = useRouter();
+
   useEffect(() => {
     axios.get('/api/categories').then(result => {
       setCategories(result.data);
     })
   }, []);
+
   async function saveProduct(ev) {
     ev.preventDefault();
     const data = {
@@ -43,9 +46,11 @@ export default function ProductForm({
     }
     setGoToProducts(true);
   }
+
   if (goToProducts) {
     router.push('/products');
   }
+
   async function uploadImages(ev) {
     const files = ev.target?.files;
     if (files?.length > 0) {
@@ -61,9 +66,11 @@ export default function ProductForm({
       setIsUploading(false);
     }
   }
+
   function updateImagesOrder(images) {
     setImages(images);
   }
+
   function setProductProp(propName,value) {
     setProductProperties(prev => {
       const newProductProps = {...prev};
@@ -130,7 +137,7 @@ export default function ProductForm({
             ))}
           </ReactSortable>
           {isUploading && (
-            <div className="h-24 flex items-center">
+            <div className="h-24 w-24 flex items-center">
               <Spinner />
             </div>
           )}
@@ -144,6 +151,12 @@ export default function ProductForm({
             <input type="file" onChange={uploadImages} className="hidden"/>
           </label>
         </div>
+        <label>Description</label>
+        <textarea
+          placeholder="description"
+          value={description}
+          onChange={ev => setDescription(ev.target.value)}
+        />
         <label>Description</label>
         <textarea
           placeholder="description"

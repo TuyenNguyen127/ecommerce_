@@ -7,6 +7,26 @@ const ProductSchema = new Schema({
   images: [{type:String}],
   category: {type:mongoose.Types.ObjectId, ref:'Category'},
   properties: {type:Object},
+  code: {
+    type: String
+  },
+  firm:{type:mongoose.Types.ObjectId, ref:'Firm'},
+  status: {
+    type: Boolean,
+    default: true
+  },
+  origin: {
+    type: String
+  },
+  guarantee: {
+    type: Number
+  },
+  wattage: {
+    type: String
+  },
+  feature: {
+    type: String
+  }
 }, {
   timestamps: true,
 });
