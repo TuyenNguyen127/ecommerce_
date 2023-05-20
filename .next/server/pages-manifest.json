@@ -2,11 +2,11 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/products/edit/[...id]": "pages/products/edit/[...id].js",
-  "/": "pages/index.js",
+  "/api/firm": "pages/api/firm.js",
+  "/categories": "pages/categories.js",
+  "/firm": "pages/firm.js",
   "/api/categories": "pages/api/categories.js",
-  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
   "/api/products": "pages/api/products.js",
   "/products": "pages/products.js",
-  "/categories": "pages/categories.js"
+  "/": "pages/index.js"
 }

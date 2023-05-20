@@ -12,11 +12,11 @@ export default function Products() {
   }, []);
   return (
     <Layout>
-      <Link className="btn-primary" href={'/products/new'}>Add new product</Link>
+      <Link className="btn-primary" href={'/products/new'}>Thêm sản phẩm mới</Link>
       <table className="basic mt-2">
         <thead>
           <tr>
-            <td>Product name</td>
+            <td>Tên sản phẩm</td>
             <td></td>
           </tr>
         </thead>

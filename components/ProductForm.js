@@ -13,29 +13,47 @@ export default function ProductForm({
   images:existingImages,
   category:assignedCategory,
   properties:assignedProperties,
+  code: existingCode,
+  firm: assignedFirm,
+  status: assignedStatus,
+  origin: existingOrigin,
+  guarantee: existingGuarantee,
+  wattage: existingWattage,
+  feature: existingFeature
 }) {
-  const [title,setTitle] = useState(existingTitle || '');
-  const [description,setDescription] = useState(existingDescription || '');
-  const [category,setCategory] = useState(assignedCategory || '');
-  const [productProperties,setProductProperties] = useState(assignedProperties || {});
-  const [price,setPrice] = useState(existingPrice || '');
-  const [images,setImages] = useState(existingImages || []);
-  const [goToProducts,setGoToProducts] = useState(false);
-  const [isUploading,setIsUploading] = useState(false);
-  const [categories,setCategories] = useState([]);
+  const [title, setTitle] = useState(existingTitle || '');
+  const [description, setDescription] = useState(existingDescription || '');
+  const [category, setCategory] = useState(assignedCategory || '');
+  const [productProperties, setProductProperties] = useState(assignedProperties || {});
+  const [price, setPrice] = useState(existingPrice || '');
+  const [images, setImages] = useState(existingImages || []);
+  const [goToProducts, setGoToProducts] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [firm, setFirm] = useState(assignedFirm || '');
+  const [firms, setFirms] = useState([]);
+  const [code, setCode] = useState(existingCode || '');
+  const [status, setStatus] = useState(assignedStatus || true);
+  const [origin, setOrigin] = useState(existingOrigin || '');
+  const [guarantee, setGuarantee] = useState(existingGuarantee || 0);
+  const [wattage, setWattage] = useState(existingWattage || '');
+  const [feature, setFeature] = useState(existingFeature || '');
   const router = useRouter();
 
   useEffect(() => {
     axios.get('/api/categories').then(result => {
       setCategories(result.data);
     })
+    axios.get('/api/firm').then(result => {
+      setFirms(result.data);
+    });
   }, []);
 
   async function saveProduct(ev) {
     ev.preventDefault();
     const data = {
-      title,description,price,images,category,
-      properties:productProperties
+      title, description, price, images, category, firm, code, status, origin, guarantee, wattage, feature,
+      properties :productProperties
     };
     if (_id) {
       //update
@@ -92,16 +110,18 @@ export default function ProductForm({
 
   return (
       <form onSubmit={saveProduct}>
-        <label>Product name</label>
+        
+        <label>Tên sản phẩm</label>
         <input
           type="text"
-          placeholder="product name"
+          placeholder="tên sản phẩm"
           value={title}
           onChange={ev => setTitle(ev.target.value)}/>
-        <label>Category</label>
+
+        <label>Danh mục sản phẩm</label>
         <select value={category}
                 onChange={ev => setCategory(ev.target.value)}>
-          <option value="">Uncategorized</option>
+          <option value="">Không có</option>
           {categories.length > 0 && categories.map(c => (
             <option key={c._id} value={c._id}>{c.name}</option>
           ))}
@@ -122,8 +142,25 @@ export default function ProductForm({
             </div>
           </div>
         ))}
+
+        <label>Hãng</label>
+        <select value={firm}
+                onChange={ev => setFirm(ev.target.value)}>
+          <option value="">Không có</option>
+          {firms.length > 0 && firms.map(c => (
+            <option key={c._id} value={c._id}>{c.name}</option>
+          ))}
+        </select>
+
+        <label>Trạng thái</label>
+        <select value={status}
+                onChange={ev => setStatus(ev.target.value)}>
+          <option value={true} onClick={() => setStatus(true)}>Còn hàng</option>
+          <option value={false} onClick={() => setStatus(false)}>Hết hàng</option>
+        </select>
+
         <label>
-          Photos
+          Hình ảnh
         </label>
         <div className="mb-2 flex flex-wrap gap-1">
           <ReactSortable
@@ -146,29 +183,61 @@ export default function ProductForm({
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
             </svg>
             <div>
-              Add image
+              Thêm ảnh
             </div>
             <input type="file" onChange={uploadImages} className="hidden"/>
           </label>
         </div>
-        <label>Description</label>
+
+        <label>Mô tả sản phẩm</label>
         <textarea
-          placeholder="description"
+          placeholder="Mô tả sản phẩm"
           value={description}
           onChange={ev => setDescription(ev.target.value)}
         />
-        <label>Description</label>
+
+        <label>Chức năng chính</label>
         <textarea
-          placeholder="description"
-          value={description}
-          onChange={ev => setDescription(ev.target.value)}
+          placeholder="Chức năng chính của sản phẩm"
+          value={feature}
+          onChange={ev => setFeature(ev.target.value)}
         />
-        <label>Price (in USD)</label>
+
+        <label>Mã sản phẩm</label>
         <input
-          type="number" placeholder="price"
+          type="text"
+          placeholder="Nhập mã sản phẩm"
+          value={code}
+          onChange={ev => setCode(ev.target.value)}/>
+
+        <label>Công suất</label>
+        <input
+          type="text"
+          placeholder="Nhập rõ đơn vị"
+          value={wattage}
+          onChange={ev => setWattage(ev.target.value)}/>
+
+        <label>Xuất xứ</label>
+        <input
+          type="text"
+          placeholder="Nhập rõ đơn vị"
+          value={origin}
+          onChange={ev => setOrigin(ev.target.value)}/>
+          
+        <label>Giá sản phẩm (vnd)</label>
+        <input
+          type="number" placeholder="Nhập giá sản phẩm"
           value={price}
           onChange={ev => setPrice(ev.target.value)}
         />
+
+        <label>Thời gian bảo hành (tháng)</label>
+        <input
+          type="number" placeholder="Số tháng có thể bảo hành từ lúc mua"
+          value={guarantee}
+          onChange={ev => setGuarantee(ev.target.value)}
+        />
+
         <button
           type="submit"
           className="btn-primary">

@@ -95,29 +95,29 @@ function Categories({swal}) {
   }
   return (
     <Layout>
-      <h1>Categories</h1>
+      <h1>Danh mục sản phẩm</h1>
       <label>
         {editedCategory
-          ? `Edit category ${editedCategory.name}`
-          : 'Create new category'}
+          ? `Sửa danh mục ${editedCategory.name}`
+          : 'Tạo danh mục mới'}
       </label>
       <form onSubmit={saveCategory}>
         <div className="flex gap-1">
           <input
             type="text"
-            placeholder={'Category name'}
+            placeholder={'Tên danh mục'}
             onChange={ev => setName(ev.target.value)}
             value={name}/>
           <select
                   onChange={ev => setParentCategory(ev.target.value)}
                   value={parentCategory}>
-            <option value="">No parent category</option>
+            <option value="">Không có danh mục cha</option>
             {categories.length > 0 && categories.map(category => (
               <option key={category._id} value={category._id}>{category.name}</option>
             ))}
           </select>
         </div>
-        <div className="mb-2">
+        {/* <div className="mb-2">
           <label className="block">Properties</label>
           <button
             onClick={addProperty}
@@ -149,7 +149,7 @@ function Categories({swal}) {
               </button>
             </div>
           ))}
-        </div>
+        </div> */}
         <div className="flex gap-1">
           {editedCategory && (
             <button
@@ -160,11 +160,11 @@ function Categories({swal}) {
                 setParentCategory('');
                 setProperties([]);
               }}
-              className="btn-default">Cancel</button>
+              className="btn-default">Hủy</button>
           )}
           <button type="submit"
                   className="btn-primary py-1">
-            Save
+            Lưu
           </button>
         </div>
       </form>
@@ -172,8 +172,8 @@ function Categories({swal}) {
         <table className="basic mt-4">
           <thead>
           <tr>
-            <td>Category name</td>
-            <td>Parent category</td>
+            <td>Tên danh mục</td>
+            <td>Danh mục cha</td>
             <td></td>
           </tr>
           </thead>
@@ -187,11 +187,11 @@ function Categories({swal}) {
                   onClick={() => editCategory(category)}
                   className="btn-default mr-1"
                 >
-                  Edit
+                  Sửa
                 </button>
                 <button
                   onClick={() => deleteCategory(category)}
-                  className="btn-red">Delete</button>
+                  className="btn-red">Xóa</button>
               </td>
             </tr>
           ))}
